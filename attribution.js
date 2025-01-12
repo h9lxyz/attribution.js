@@ -1,3 +1,13 @@
+/*!
+ * attribution.js v0.1
+ * https://github.com/h9lxyz/attribution.js
+ *
+ * Copyright Hendrik Will and other contributors
+ * Released under the MIT license
+ * https://github.com/h9lxyz/attribution.js/blob/main/LICENSE
+ *
+ */
+
 (function() {
     const styles = `
     .attribution-overlay-backdrop {
