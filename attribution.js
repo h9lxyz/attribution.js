@@ -201,17 +201,120 @@
     styleSheet.textContent = styles + additionalStyles;
     document.head.appendChild(styleSheet);
 
+    function getStandardAttribution(photoUrl, photographerName, photographerUrl, year, licenseUrl) {
+        return `<a href="${photoUrl}">Photo</a> © ${year} by <a href="${photographerUrl}">${photographerName}</a>.`;
+    }
+
+    const CreativeCommons = {
+        obligations: {
+            by: 'give credit to me',
+            sa: 'share any adaptations under the same terms',
+            nd: 'only use the material in unadapted form',
+            nc: 'only use this work for non-commercial purposes'
+        },
+
+        rights: {
+            adaptations: 'You can make adaptations of this work',
+            commercial: 'You can use this work commercially',
+            publicDomain: 'You can copy, modify, distribute and perform the work, even for commercial purposes, all without asking permission. Attribution is appreciated but not required.'
+        },
+
+        licenses: {
+            'CC0 1.0': {
+                url: 'https://creativecommons.org/publicdomain/zero/1.0/',
+                obligations: function() {
+                    return `This work is dedicated to the public domain. ${this.rights.publicDomain}`;
+                },
+                getAttribution: function(photoUrl, photographerName, photographerUrl) {
+                    return `<a href="${photoUrl}">Photo</a> by <a href="${photographerUrl}">${photographerName}</a> is dedicated to the <a href="${this.url}">public domain</a>.`;
+                }
+            },
+            'CC BY 4.0': {
+                url: 'https://creativecommons.org/licenses/by/4.0/',
+                obligations: function() {
+                    return `This license requires that you ${this.obligations.by}. ${this.rights.adaptations} and ${this.rights.commercial.toLowerCase()}.`;
+                }
+            },
+            'CC BY-ND 4.0': {
+                url: 'https://creativecommons.org/licenses/by-nd/4.0/',
+                obligations: function() {
+                    return `This license requires that you ${this.obligations.by} and ${this.obligations.nd}. ${this.rights.commercial}.`;
+                }
+            },
+            'CC BY-NC-ND 4.0': {
+                url: 'https://creativecommons.org/licenses/by-nc-nd/4.0/',
+                obligations: function() {
+                    return `This license requires that you ${this.obligations.by}, ${this.obligations.nd}, and ${this.obligations.nc}.`;
+                }
+            },
+            'CC BY-SA 4.0': {
+                url: 'https://creativecommons.org/licenses/by-sa/4.0/',
+                obligations: function() {
+                    return `This license requires that you ${this.obligations.by} and ${this.obligations.sa}. ${this.rights.commercial}.`;
+                }
+            },
+            'CC BY-NC-SA 4.0': {
+                url: 'https://creativecommons.org/licenses/by-nc-sa/4.0/',
+                obligations: function() {
+                    return `This license requires that you ${this.obligations.by}, ${this.obligations.sa}, and ${this.obligations.nc}.`;
+                }
+            }
+        },
+
+        getLicense: function(licenseType) {
+            return this.licenses[licenseType] || this.licenses['CC BY 4.0'];
+        }
+    };
+
     class AttributionOverlay {
         constructor(options = {}) {
+            const obligations = {
+                by: 'give credit to me',
+                sa: 'share any adaptations under the same terms',
+                nd: 'only use the material in unadapted form',
+                nc: 'only use this work for non-commercial purposes'
+            };
+
+            const rights = {
+                adaptations: 'You can make adaptations of this work',
+                commercial: 'You can use this work commercially'
+            };
+
+            const licenses = {
+                'CC BY 4.0': {
+                    url: 'https://creativecommons.org/licenses/by/4.0/',
+                    obligations: `This license requires that you ${obligations.by}. ${rights.adaptations} and ${rights.commercial.toLowerCase()}.`
+                },
+                'CC BY-ND 4.0': {
+                    url: 'https://creativecommons.org/licenses/by-nd/4.0/',
+                    obligations: `This license requires that you ${obligations.by} and ${obligations.nd}. ${rights.commercial}.`
+                },
+                'CC BY-NC-ND 4.0': {
+                    url: 'https://creativecommons.org/licenses/by-nc-nd/4.0/',
+                    obligations: `This license requires that you ${obligations.by}, ${obligations.nd}, and ${obligations.nc}.`
+                },
+                'CC BY-SA 4.0': {
+                    url: 'https://creativecommons.org/licenses/by-sa/4.0/',
+                    obligations: `This license requires that you ${obligations.by} and ${obligations.sa}. ${rights.commercial}.`
+                },
+                'CC BY-NC-SA 4.0': {
+                    url: 'https://creativecommons.org/licenses/by-nc-sa/4.0/',
+                    obligations: `This license requires that you ${obligations.by}, ${obligations.sa}, and ${obligations.nc}.`
+                }
+            };
+
             this.options = {
                 buttonClass: 'attribution-button',
                 imageClass: 'attribution-image',
                 year: new Date().getFullYear(),
-                license: 'CC BY-ND 4.0',
-                licenseUrl: 'https://creativecommons.org/licenses/by-nd/4.0/',
-                licenseObligations: 'This license requires that you give credit to the me. It allows you to copy and distribute the material in any medium or format in unadapted form only, even for commercial purposes.',
+                license: 'CC BY 4.0',
                 ...options
             };
+
+            const selectedLicense = licenses[this.options.license] || licenses['CC BY 4.0'];
+            this.options.licenseUrl = selectedLicense.url;
+            this.options.licenseObligations = selectedLicense.obligations;
+
             this.activeOverlay = null;
             this.init();
         }
@@ -241,7 +344,15 @@
             const overlay = document.createElement('div');
             overlay.className = 'attribution-overlay';
             
-            const attribution = `<a href="${photoUrl}">Photo</a> © ${this.options.year} by <a href="${photographerUrl}">${photographerName}</a>.`;
+            const attribution = this.options.isCC0 
+                ? CreativeCommons.licenses['CC0 1.0'].getAttribution(photoUrl, photographerName, photographerUrl)
+                : getStandardAttribution(
+                    photoUrl, 
+                    photographerName, 
+                    photographerUrl, 
+                    this.options.year, 
+                    this.options.licenseUrl
+                );
             
             const shareText = `Check out this amazing photo by ${photographerName}`;
             const shareUrls = {
@@ -290,7 +401,7 @@
                 const originalText = copyButton.textContent;
                 copyButton.textContent = 'Copied ✓';
                 
-                this.createEmojiExplosion(copyButton, '🙏');
+                this.createEmojiAnimation(copyButton, '🙏');
                 
                 setTimeout(() => {
                     copyButton.textContent = originalText;
@@ -319,7 +430,7 @@
             return backdrop;
         }
 
-        createEmojiExplosion(button, emoji) {
+        createEmojiAnimation(button, emoji) {
             const particleCount = 15;
             const container = document.createElement('div');
             container.style.position = 'fixed';
