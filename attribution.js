@@ -93,6 +93,11 @@
         color: white;
         white-space: nowrap;
         width: 100px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
     }
     .attribution-overlay a {
         color: #147af3;
