@@ -232,31 +232,31 @@
             'CC BY 4.0': {
                 url: 'https://creativecommons.org/licenses/by/4.0/',
                 obligations: function() {
-                    return `This license requires that you ${this.obligations.by}. ${this.rights.adaptations} and ${this.rights.commercial.toLowerCase()}.`;
+                    return `${this.obligations.by}. ${this.rights.adaptations} and ${this.rights.commercial.toLowerCase()}.`;
                 }
             },
             'CC BY-ND 4.0': {
                 url: 'https://creativecommons.org/licenses/by-nd/4.0/',
                 obligations: function() {
-                    return `This license requires that you ${this.obligations.by} and ${this.obligations.nd}. ${this.rights.commercial}.`;
+                    return `${this.obligations.by} and ${this.obligations.nd}. ${this.rights.commercial}.`;
                 }
             },
             'CC BY-NC-ND 4.0': {
                 url: 'https://creativecommons.org/licenses/by-nc-nd/4.0/',
                 obligations: function() {
-                    return `This license requires that you ${this.obligations.by}, ${this.obligations.nd}, and ${this.obligations.nc}.`;
+                    return `${this.obligations.by}, ${this.obligations.nd}, and ${this.obligations.nc}.`;
                 }
             },
             'CC BY-SA 4.0': {
                 url: 'https://creativecommons.org/licenses/by-sa/4.0/',
                 obligations: function() {
-                    return `This license requires that you ${this.obligations.by} and ${this.obligations.sa}. ${this.rights.commercial}.`;
+                    return `${this.obligations.by} and ${this.obligations.sa}. ${this.rights.commercial}.`;
                 }
             },
             'CC BY-NC-SA 4.0': {
                 url: 'https://creativecommons.org/licenses/by-nc-sa/4.0/',
                 obligations: function() {
-                    return `This license requires that you ${this.obligations.by}, ${this.obligations.sa}, and ${this.obligations.nc}.`;
+                    return `${this.obligations.by}, ${this.obligations.sa}, and ${this.obligations.nc}.`;
                 }
             }
         },
@@ -336,8 +336,8 @@
                 <div class="attribution-overlay__content">
                     <div class="attribution-overlay__text">
                         <p>I'm glad you like my work! This photo is freely available under the 
-                        <b>Creative Commons license <a href="${this.options.licenseUrl}">${this.options.license}</a></b>.
-                        ${this.options.licenseObligations}
+                        <b>Creative Commons <a href="${this.options.licenseUrl}">${this.options.license}</a></b>.
+                        ${this.options.isCC0 ? this.options.licenseObligations : `This license requires that you ${this.options.licenseObligations}`}
                         </p>
                         <p>Use this attribution text:</p>
                     </div>
