@@ -342,7 +342,9 @@
                     <div class="attribution-overlay__text">
                         <p>I'm glad you like my work! This photo is freely available under the 
                         <b>Creative Commons <a href="${this.options.licenseUrl}">${this.options.license}</a></b>.
-                        ${this.options.isCC0 ? this.options.licenseObligations : `This license requires that you ${this.options.licenseObligations}`}
+                        <span title="Simplified explanation: For full license details, please visit the official Creative Commons license deed.">
+                            ${this.options.isCC0 ? this.options.licenseObligations : `This license requires that you ${this.options.licenseObligations}`}
+                        </span>
                         </p>
                         <p>Use this attribution text:</p>
                     </div>
