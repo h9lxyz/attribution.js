@@ -268,41 +268,6 @@
 
     class AttributionOverlay {
         constructor(options = {}) {
-            const obligations = {
-                by: 'give credit to me',
-                sa: 'share any adaptations under the same terms',
-                nd: 'only use the material in unadapted form',
-                nc: 'only use this work for non-commercial purposes'
-            };
-
-            const rights = {
-                adaptations: 'You can make adaptations of this work',
-                commercial: 'You can use this work commercially'
-            };
-
-            const licenses = {
-                'CC BY 4.0': {
-                    url: 'https://creativecommons.org/licenses/by/4.0/',
-                    obligations: `This license requires that you ${obligations.by}. ${rights.adaptations} and ${rights.commercial.toLowerCase()}.`
-                },
-                'CC BY-ND 4.0': {
-                    url: 'https://creativecommons.org/licenses/by-nd/4.0/',
-                    obligations: `This license requires that you ${obligations.by} and ${obligations.nd}. ${rights.commercial}.`
-                },
-                'CC BY-NC-ND 4.0': {
-                    url: 'https://creativecommons.org/licenses/by-nc-nd/4.0/',
-                    obligations: `This license requires that you ${obligations.by}, ${obligations.nd}, and ${obligations.nc}.`
-                },
-                'CC BY-SA 4.0': {
-                    url: 'https://creativecommons.org/licenses/by-sa/4.0/',
-                    obligations: `This license requires that you ${obligations.by} and ${obligations.sa}. ${rights.commercial}.`
-                },
-                'CC BY-NC-SA 4.0': {
-                    url: 'https://creativecommons.org/licenses/by-nc-sa/4.0/',
-                    obligations: `This license requires that you ${obligations.by}, ${obligations.sa}, and ${obligations.nc}.`
-                }
-            };
-
             this.options = {
                 buttonClass: 'attribution-button',
                 imageClass: 'attribution-image',
@@ -311,9 +276,10 @@
                 ...options
             };
 
-            const selectedLicense = licenses[this.options.license] || licenses['CC BY 4.0'];
+            const selectedLicense = CreativeCommons.getLicense(this.options.license);
             this.options.licenseUrl = selectedLicense.url;
-            this.options.licenseObligations = selectedLicense.obligations;
+            this.options.licenseObligations = selectedLicense.obligations.call(CreativeCommons);
+            this.options.isCC0 = this.options.license === 'CC0 1.0';
 
             this.activeOverlay = null;
             this.init();
