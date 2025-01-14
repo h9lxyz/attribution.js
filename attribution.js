@@ -206,10 +206,6 @@
     styleSheet.textContent = styles + additionalStyles;
     document.head.appendChild(styleSheet);
 
-    function getStandardAttribution(photoUrl, photographerName, photographerUrl, year, licenseUrl) {
-        return `<a href="${photoUrl}">Photo</a> © ${year} by <a href="${photographerUrl}">${photographerName}</a>.`;
-    }
-
     const CreativeCommons = {
         obligations: {
             by: 'give credit to me',
@@ -308,7 +304,9 @@
             });
         }
 
-        createOverlay(photoUrl, photographerName, photographerUrl) {
+        getStandardAttribution(photoUrl, photographerName, photographerUrl, year, licenseUrl, license) {
+            return `<a href="${photoUrl}">Photo</a> © ${year} by <a href="${photographerUrl}">${photographerName}</a> is licensed under <a href="${licenseUrl}">${license}</a>`;
+        }
             const backdrop = document.createElement('div');
             backdrop.className = 'attribution-overlay-backdrop';
             
@@ -317,7 +315,7 @@
             
             const attribution = this.options.isCC0 
                 ? CreativeCommons.licenses['CC0 1.0'].getAttribution(photoUrl, photographerName, photographerUrl)
-                : getStandardAttribution(
+                : this.getStandardAttribution(
                     photoUrl, 
                     photographerName, 
                     photographerUrl, 
@@ -368,8 +366,8 @@
 
             const copyButton = overlay.querySelector('.attribution-overlay__button--copy');
             copyButton.addEventListener('click', () => {
-                const htmlAttribution = `<a href="${photoUrl}">Photo</a> © ${this.options.year} by <a href="${photographerUrl}">${photographerName}</a> is licensed under <a href="${this.options.licenseUrl}">${this.options.license}</a>`;
-                navigator.clipboard.writeText(htmlAttribution);
+                
+                navigator.clipboard.writeText(attribution);
                 
                 const originalText = copyButton.textContent;
                 copyButton.textContent = 'Copied ✓';
