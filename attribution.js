@@ -1,5 +1,5 @@
 /*!
- * attribution.js v0.1
+ * attribution.js v0.2
  * https://github.com/h9lxyz/attribution.js
  *
  * Copyright Hendrik Will and other contributors
@@ -480,10 +480,8 @@
             const photographerUrl = dataElement.getAttribute('data-photographer-url');
             const photoUrl = window.location.href;
 
-            // Get image-specific options
             const options = this.getOptionsForImage(img);
             
-            // Update license info based on the specific options
             const selectedLicense = CreativeCommons.getLicense(options.license);
             options.licenseUrl = selectedLicense.url;
             options.licenseObligations = selectedLicense.obligations.call(CreativeCommons);
