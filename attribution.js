@@ -226,8 +226,8 @@
                 obligations: function() {
                     return `This work is dedicated to the public domain. ${this.rights.publicDomain}`;
                 },
-                getAttribution: function(photoUrl, photographerName, photographerUrl) {
-                    return `<a href="${photoUrl}">Photo</a> by <a href="${photographerUrl}">${photographerName}</a> is dedicated to the <a href="${this.url}">public domain</a>.`;
+                getAttribution: function(photoUrl, photographerName, photographerUrl, mediaType) {
+                    return `<a href="${photoUrl}">${mediaType}</a> by <a href="${photographerUrl}">${photographerName}</a> is dedicated to the <a href="${this.url}">public domain</a>.`;
                 }
             },
             'CC BY 4.0': {
@@ -275,6 +275,9 @@
                 imageContainerClass: 'image-container',
                 year: new Date().getFullYear(),
                 license: 'CC BY 4.0',
+                mediaType: 'Photo',
+                authorName: null,
+                authorUrl: null,
                 ...options
             };
 
@@ -310,12 +313,15 @@
             return {
                 ...this.options,
                 year: img.dataset.year || this.options.year,
-                license: img.dataset.license || this.options.license
+                license: img.dataset.license || this.options.license,
+                mediaType: img.dataset.mediaType || this.options.mediaType,
+                authorName: img.dataset.authorName || this.options.authorName,
+                authorUrl: img.dataset.authorUrl || this.options.authorUrl
             };
         }
 
-        getStandardAttribution(photoUrl, photographerName, photographerUrl, year, licenseUrl, license) {
-            return `<a href="${photoUrl}">Photo</a> © ${year} by <a href="${photographerUrl}">${photographerName}</a> is licensed under <a href="${licenseUrl}">${license}</a>`;
+        getStandardAttribution(mediaUrl, authorName, authorUrl, year, license, licenseUrl, mediaType) {
+            return `<a href="${mediaUrl}">${mediaType}</a> © ${year} by <a href="${authorUrl}">${authorName}</a> is licensed under <a href="${licenseUrl}">${license}</a>.`;
         }
 
         createOverlay(photoUrl, photographerName, photographerUrl, options) {
@@ -326,14 +332,15 @@
             overlay.className = 'attribution-overlay';
             
             const attribution = options.isCC0 
-                ? CreativeCommons.licenses['CC0 1.0'].getAttribution(photoUrl, photographerName, photographerUrl)
+                ? CreativeCommons.licenses['CC0 1.0'].getAttribution(photoUrl, photographerName, photographerUrl, options.mediaType)
                 : this.getStandardAttribution(
                     photoUrl, 
                     photographerName, 
                     photographerUrl, 
-                    options.year, 
+                    options.year,
+                    options.license,
                     options.licenseUrl,
-                    options.license
+                    options.mediaType
                 );
             
             const shareText = `Check out this amazing photo by ${photographerName}`;
@@ -471,17 +478,15 @@
         }
 
         showOverlay(img) {
-            if (this.activeOverlay) {
-                return;
-            }
-
-            const dataElement = document.getElementById('attribution-data');
-            const photographerName = dataElement.getAttribute('data-photographer');
-            const photographerUrl = dataElement.getAttribute('data-photographer-url');
-            const photoUrl = window.location.href;
+            if (this.activeOverlay) return;
 
             const options = this.getOptionsForImage(img);
+            const dataElement = document.getElementById('attribution-data');
             
+            const photographerName = options.authorName || dataElement.getAttribute('data-author-name');
+            const photographerUrl = options.authorUrl || dataElement.getAttribute('data-author-url');
+            const photoUrl = window.location.href;
+
             const selectedLicense = CreativeCommons.getLicense(options.license);
             options.licenseUrl = selectedLicense.url;
             options.licenseObligations = selectedLicense.obligations.call(CreativeCommons);

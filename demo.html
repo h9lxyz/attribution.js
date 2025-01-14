@@ -49,7 +49,7 @@
 
     <div class="photo-grid">
         <figure class="photo-card">
-            <img class="attribution-image" src="https://placehold.co/300x200?text=CC+BY+4.0" alt="Demo photo 1">
+            <img class="attribution-image" src="https://placehold.co/300x200?text=CC+BY+4.0">
             <figcaption>
                 <h3>Default License</h3>
                 <p>Uses CC BY 4.0 and current year</p>
@@ -68,18 +68,16 @@
         </figure>
 
         <figure class="photo-card">
-            <img class="attribution-image" src="https://placehold.co/300x200?text=CC+BY-NC-ND+4.0" 
-                 data-license="CC BY-NC-ND 4.0" data-year="2020" alt="Demo photo 3">
+            <img class="attribution-image" src="https://placehold.co/300x200?text=CC+BY-NC-ND+4.0" data-license="CC BY-NC-ND 4.0">
             <figcaption>
                 <h3>Non-Commercial No-Derivatives</h3>
-                <p>Uses CC BY-NC-ND 4.0 from 2020</p>
+                <p>Uses CC BY-NC-ND 4.0</p>
                 <button class="attribution-button">Attribution</button>
             </figcaption>
         </figure>
 
         <figure class="photo-card">
-            <img class="attribution-image" src="https://placehold.co/300x200?text=CC0+1.0" 
-                 data-license="CC0 1.0" alt="Demo photo 4">
+            <img class="attribution-image" src="https://placehold.co/300x200?text=CC0+1.0" data-license="CC0 1.0">
             <figcaption>
                 <h3>Public Domain</h3>
                 <p>Uses CC0 1.0 Public Domain Dedication</p>
@@ -88,8 +86,7 @@
         </figure>
 
         <figure class="photo-card">
-            <img class="attribution-image" src="https://placehold.co/300x200?text=CC+BY-ND+4.0" 
-                 data-license="CC BY-ND 4.0" alt="Demo photo 5">
+            <img class="attribution-image" src="https://placehold.co/300x200?text=CC+BY-ND+4.0" data-license="CC BY-ND 4.0">
             <figcaption>
                 <h3>No Derivatives</h3>
                 <p>Uses CC BY-ND 4.0</p>
@@ -98,19 +95,42 @@
         </figure>
 
         <figure class="photo-card">
-            <img class="attribution-image" src="https://placehold.co/300x200?text=CC+BY-NC-SA+4.0" 
-                 data-license="CC BY-NC-SA 4.0" data-year="2019" alt="Demo photo 6">
+            <img class="attribution-image" src="https://placehold.co/300x200?text=CC+BY-NC-SA+4.0" data-license="CC BY-NC-SA 4.0">
             <figcaption>
                 <h3>Non-Commercial Share-Alike</h3>
                 <p>Uses CC BY-NC-SA 4.0 from 2019</p>
                 <button class="attribution-button">Attribution</button>
             </figcaption>
         </figure>
+
+        <figure class="photo-card">
+            <img class="attribution-image" src="https://placehold.co/300x200?text=CC+BY-NC-SA+4.0" 
+                 data-license="CC BY-NC-SA 4.0"
+                 data-year="2019"
+                 data-media-type="Illustration"
+                 data-author-name="John Doe"
+                 data-author-url="https://example.com/johndoe"
+            >
+            <figcaption>
+                <h3>Override Attribution</h3>
+                <p>
+                    Data attributes:<br>
+                    <ul>
+                        <li>data-license="CC0 1.0"</li>
+                        <li>data-year="2019"</li>
+                        <li>data-media-type="Illustration"</li>
+                        <li>data-photographer="John Doe"</li>
+                        <li>data-photographer-url="https://example.com/johndoe"</li>
+                    </ul>
+                </p>
+                <button class="attribution-button">Attribution</button>
+            </figcaption>
+        </figure>
     </div>
 
     <div id="attribution-data" 
-         data-photographer="Hendrik Will" 
-         data-photographer-url="https://hendrikwill.com"></div>
+         data-author-name="Hendrik Will" 
+         data-author-url="https://hendrikwill.com"></div>
 
     <script src="attribution.js"></script>
     <script>
