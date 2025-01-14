@@ -272,15 +272,11 @@
             this.options = {
                 buttonClass: 'attribution-button',
                 imageClass: 'attribution-image',
+                imageContainerClass: 'image-container',
                 year: new Date().getFullYear(),
                 license: 'CC BY 4.0',
                 ...options
             };
-
-            const selectedLicense = CreativeCommons.getLicense(this.options.license);
-            this.options.licenseUrl = selectedLicense.url;
-            this.options.licenseObligations = selectedLicense.obligations.call(CreativeCommons);
-            this.options.isCC0 = this.options.license === 'CC0 1.0';
 
             this.activeOverlay = null;
             this.init();
@@ -289,38 +285,55 @@
         init() {
             document.addEventListener('click', (e) => {
                 if (e.target.classList.contains(this.options.buttonClass)) {
-                    setTimeout(() => {
-                        this.showOverlay();
-                    }, 0);
+                    const container = e.target.closest(`.${this.options.imageContainerClass}`);
+                    const img = container?.querySelector(`.${this.options.imageClass}`);
+                    if (img) {
+                        setTimeout(() => {
+                            this.showOverlay(img);
+                        }, 0);
+                    }
                 }
             });
 
             document.addEventListener('contextmenu', (e) => {
                 if (e.target.classList.contains(this.options.imageClass)) {
                     setTimeout(() => {
-                        this.showOverlay();
+                        this.showOverlay(e.target);
                     }, 1000);
                 }
             });
         }
 
+        getOptionsForImage(img) {
+            if (!img) return this.options;
+
+            return {
+                ...this.options,
+                year: img.dataset.year || this.options.year,
+                license: img.dataset.license || this.options.license
+            };
+        }
+
         getStandardAttribution(photoUrl, photographerName, photographerUrl, year, licenseUrl, license) {
             return `<a href="${photoUrl}">Photo</a> © ${year} by <a href="${photographerUrl}">${photographerName}</a> is licensed under <a href="${licenseUrl}">${license}</a>`;
         }
+
+        createOverlay(photoUrl, photographerName, photographerUrl, options) {
             const backdrop = document.createElement('div');
             backdrop.className = 'attribution-overlay-backdrop';
             
             const overlay = document.createElement('div');
             overlay.className = 'attribution-overlay';
             
-            const attribution = this.options.isCC0 
+            const attribution = options.isCC0 
                 ? CreativeCommons.licenses['CC0 1.0'].getAttribution(photoUrl, photographerName, photographerUrl)
                 : this.getStandardAttribution(
                     photoUrl, 
                     photographerName, 
                     photographerUrl, 
-                    this.options.year, 
-                    this.options.licenseUrl
+                    options.year, 
+                    options.licenseUrl,
+                    options.license
                 );
             
             const shareText = `Check out this amazing photo by ${photographerName}`;
@@ -339,9 +352,9 @@
                 <div class="attribution-overlay__content">
                     <div class="attribution-overlay__text">
                         <p>I'm glad you like my work! This photo is freely available under the 
-                        <b>Creative Commons <a href="${this.options.licenseUrl}">${this.options.license}</a></b>.
+                        <b>Creative Commons <a href="${options.licenseUrl}">${options.license}</a></b>.
                         <span title="Simplified explanation: For full license details, please visit the official Creative Commons license deed.">
-                            ${this.options.isCC0 ? this.options.licenseObligations : `This license requires that you ${this.options.licenseObligations}`}
+                            ${options.isCC0 ? options.licenseObligations : `This license requires that you ${options.licenseObligations}`}
                         </span>
                         </p>
                         <p>Use this attribution text:</p>
@@ -457,7 +470,7 @@
             }
         }
 
-        showOverlay() {
+        showOverlay(img) {
             if (this.activeOverlay) {
                 return;
             }
@@ -465,10 +478,18 @@
             const dataElement = document.getElementById('attribution-data');
             const photographerName = dataElement.getAttribute('data-photographer');
             const photographerUrl = dataElement.getAttribute('data-photographer-url');
-
             const photoUrl = window.location.href;
 
-            this.activeOverlay = this.createOverlay(photoUrl, photographerName, photographerUrl);
+            // Get image-specific options
+            const options = this.getOptionsForImage(img);
+            
+            // Update license info based on the specific options
+            const selectedLicense = CreativeCommons.getLicense(options.license);
+            options.licenseUrl = selectedLicense.url;
+            options.licenseObligations = selectedLicense.obligations.call(CreativeCommons);
+            options.isCC0 = options.license === 'CC0 1.0';
+
+            this.activeOverlay = this.createOverlay(photoUrl, photographerName, photographerUrl, options);
             document.body.appendChild(this.activeOverlay);
         }
     }
