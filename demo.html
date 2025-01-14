@@ -6,90 +6,123 @@
     <title>attribution.js Demo</title>
     <style>
         body {
-            font-family: Arial, Helvetica, Roboto, sans-serif;
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 0 20px;
-            line-height: 1.6;
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }
-
         .photo-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 20px;
-            margin: 40px 0;
+            margin: 20px 0;
         }
-
         .photo-card {
-            border: 1px solid #eee;
+            border: 1px solid #ddd;
             border-radius: 8px;
             overflow: hidden;
         }
-
         .photo-card img {
             width: 100%;
             height: 200px;
             object-fit: cover;
         }
-
-        .photo-card__info {
+        .photo-card figcaption {
             padding: 15px;
         }
-
-        .download-button {
-            display: inline-block;
-            padding: 8px 16px;
-            background: #0066cc;
+        .attribution-button {
+            background: #147af3;
             color: white;
-            text-decoration: none;
+            border: none;
+            padding: 8px 16px;
             border-radius: 4px;
+            cursor: pointer;
         }
-
-        .download-button:hover {
-            background: #0052a3;
+        .attribution-button:hover {
+            opacity: 0.9;
         }
     </style>
 </head>
 <body>
     <h1>attribution.js Demo</h1>
-    <p>Click the download buttons or right click on the images below to see attribution.js in action.</p>
+    <p>Different examples of Creative Commons licenses and years.</p>
 
     <div class="photo-grid">
-        <!-- Example 1 -->
-        <div class="photo-card">
-            <img class="photo-card__image" src="https://images.unsplash.com/photo-1562447141-9486261b3523?q=80&w=600">
-            <div class="photo-card__info">
-                <h3>Modern architecture in Shenzhen, China.</h3>
-                <a href="#" class="download-button">
-                    Download Photo
-                </a>
-            </div>
-        </div>
+        <figure class="photo-card">
+            <img class="attribution-image" src="https://placehold.co/300x200?text=CC+BY+4.0" alt="Demo photo 1">
+            <figcaption>
+                <h3>Default License</h3>
+                <p>Uses CC BY 4.0 and current year</p>
+                <button class="attribution-button">Attribution</button>
+            </figcaption>
+        </figure>
 
-        <!-- Example 2 -->
-        <div class="photo-card">
-            <img class="photo-card__image" src="https://images.unsplash.com/photo-1562447141-1967e069fd45?q=80&w=600">
-            <div class="photo-card__info">
-                <h3>Color palette in "Oil Painting Village" Dafen, Shenzhen.</h3>
-                <a href="#" class="download-button">Download Photo</a>
-            </div>
-        </div>
+        <figure class="photo-card">
+            <img class="attribution-image" src="https://placehold.co/300x200?text=CC+BY-SA+4.0" 
+                 data-license="CC BY-SA 4.0" alt="Demo photo 2">
+            <figcaption>
+                <h3>Share-Alike License</h3>
+                <p>Uses CC BY-SA 4.0</p>
+                <button class="attribution-button">Attribution</button>
+            </figcaption>
+        </figure>
+
+        <figure class="photo-card">
+            <img class="attribution-image" src="https://placehold.co/300x200?text=CC+BY-NC-ND+4.0" 
+                 data-license="CC BY-NC-ND 4.0" data-year="2020" alt="Demo photo 3">
+            <figcaption>
+                <h3>Non-Commercial No-Derivatives</h3>
+                <p>Uses CC BY-NC-ND 4.0 from 2020</p>
+                <button class="attribution-button">Attribution</button>
+            </figcaption>
+        </figure>
+
+        <figure class="photo-card">
+            <img class="attribution-image" src="https://placehold.co/300x200?text=CC0+1.0" 
+                 data-license="CC0 1.0" alt="Demo photo 4">
+            <figcaption>
+                <h3>Public Domain</h3>
+                <p>Uses CC0 1.0 Public Domain Dedication</p>
+                <button class="attribution-button">Attribution</button>
+            </figcaption>
+        </figure>
+
+        <figure class="photo-card">
+            <img class="attribution-image" src="https://placehold.co/300x200?text=CC+BY-ND+4.0" 
+                 data-license="CC BY-ND 4.0" alt="Demo photo 5">
+            <figcaption>
+                <h3>No Derivatives</h3>
+                <p>Uses CC BY-ND 4.0</p>
+                <button class="attribution-button">Attribution</button>
+            </figcaption>
+        </figure>
+
+        <figure class="photo-card">
+            <img class="attribution-image" src="https://placehold.co/300x200?text=CC+BY-NC-SA+4.0" 
+                 data-license="CC BY-NC-SA 4.0" data-year="2019" alt="Demo photo 6">
+            <figcaption>
+                <h3>Non-Commercial Share-Alike</h3>
+                <p>Uses CC BY-NC-SA 4.0 from 2019</p>
+                <button class="attribution-button">Attribution</button>
+            </figcaption>
+        </figure>
     </div>
 
-    <!-- Attribution data -->
-    <div id="attribution-data" style="display: none;" data-photographer="Hendrik Will" data-photographer-url="https://hendrikwill.com"></div>
+    <div id="attribution-data" 
+         data-photographer="Hendrik Will" 
+         data-photographer-url="https://hendrikwill.com"></div>
 
-    <!-- Include the cc-attribution.js library -->
     <script src="attribution.js"></script>
     <script>
-        // Initialize the attribution overlay
-        const attributionOverlay = new AttributionOverlay({
-            buttonClass: 'download-button',
-            imageClass: 'photo-card__image',
-            year: '2025',
-            license: 'CC BY-ND 4.0',
-            licenseUrl: 'https://creativecommons.org/licenses/by-nd/4.0/'
-        });
+        new AttributionOverlay(
+            {
+                buttonClass: "attribution-button",
+                imageContainerClass: "photo-card",
+                imageClass: "attribution-image",
+                year: new Date().getFullYear(),
+                license: 'CC BY 4.0'
+            }
+        );
     </script>
 </body>
 </html> 
