@@ -2,6 +2,8 @@
 
 A lightweight drop-in JS lib that helps photographers to make image attribution easy and engaging. When users press an element to download or right-click on images, it shows an overlay with proper attribution text and social sharing options.
 
+[Demo](https://h9lxyz.github.io/attribution.js/demo.html)
+
 ## Features
 - Shows attribution overlay when downloading images
 - Right-click integration for image context menu
