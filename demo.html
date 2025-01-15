@@ -128,19 +128,17 @@
         </figure>
     </div>
 
-    <div id="attribution-data" 
-         data-author-name="Hendrik Will" 
-         data-author-url="https://hendrikwill.com"></div>
-
     <script src="attribution.js"></script>
     <script>
         new AttributionOverlay(
             {
-                buttonClass: "attribution-button",
-                imageContainerClass: "photo-card",
-                imageClass: "attribution-image",
+                buttonClass: 'attribution-button',
+                imageContainerClass: 'photo-card',
+                imageClass: 'attribution-image',
+                license: 'CC BY-NC-SA 4.0',
                 year: new Date().getFullYear(),
-                license: 'CC BY 4.0'
+                authorName: 'John Doe',
+                authorUrl: 'https://example.com/johndoe'
             }
         );
     </script>
