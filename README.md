@@ -1,18 +1,18 @@
 # attribution.js
 
-A lightweight drop-in JS lib that helps photographers to make image attribution easy and engaging. When users press an element to download or right-click on images, it shows an overlay with proper attribution text and social sharing options.
+A lightweight drop-in JS lib that helps artists to make image attribution easy and engaging. When users press an element to download or right-click on images, an overlay with attribution text and social sharing options is shown.
 
 [Demo](https://h9lxyz.github.io/attribution.js/demo.html)
 
 ## Features
-- Shows attribution overlay when downloading images
+- Shows attribution overlay when trigger element is clicked
 - Right-click integration for image context menu
-- Copy-ready attribution text with Creative Commons license
-- Social sharing buttons for Twitter, Facebook, Pinterest, and email
+- Built-in attribution text for Creative Commons licenses
+- Social sharing buttons for X, Facebook, Pinterest, and email
 - Customizable styling and behavior
-- No dependencies, just vanilla JS and plain CSS
 - Responsive design
-- Fun emoji animation on copy
+- Fun emoji animation
+- No dependencies, just vanilla JS and plain CSS
 
 ## Supported Licenses
 - CC0 1.0 (Public Domain Dedication)
@@ -23,4 +23,4 @@ A lightweight drop-in JS lib that helps photographers to make image attribution 
 - CC BY-NC-SA 4.0
 
 ## Use Cases
-- Photography portfolios or any other content which is shared with attribution requirements
+Artist portfolios shared with attribution requirements.
