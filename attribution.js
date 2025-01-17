@@ -288,8 +288,19 @@
         init() {
             document.addEventListener('click', (e) => {
                 if (e.target.classList.contains(this.options.buttonClass)) {
-                    const container = e.target.closest(`.${this.options.imageContainerClass}`);
-                    const img = container?.querySelector(`.${this.options.imageClass}`);
+                    let img = e.target.closest(`.${this.options.imageClass}`);
+                    
+                    if (!img) {
+                        const container = e.target.closest(`.${this.options.imageContainerClass}`);
+                        if (container) {
+                            img = container.querySelector(`.${this.options.imageClass}`);
+                        }
+                    }
+                    
+                    if (!img) {
+                        img = document.querySelector(`.${this.options.imageClass}`);
+                    }
+
                     if (img) {
                         setTimeout(() => {
                             this.showOverlay(img);
