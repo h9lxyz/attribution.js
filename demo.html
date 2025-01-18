@@ -17,20 +17,24 @@
             gap: 20px;
             margin: 20px 0;
         }
-        .photo-card {
+        .photo-card,
+        .photo-card-disable-social {
             border: 1px solid #ddd;
             border-radius: 8px;
             overflow: hidden;
         }
-        .photo-card img {
+        .photo-card img,
+        .photo-card-disable-social img {
             width: 100%;
             height: 200px;
             object-fit: cover;
         }
-        .photo-card figcaption {
+        .photo-card figcaption,
+        .photo-card-disable-social figcaption {
             padding: 15px;
         }
-        .attribution-button {
+        .attribution-button,
+        .attribution-button-disable-social {
             background: #147af3;
             color: white;
             border: none;
@@ -38,7 +42,8 @@
             border-radius: 4px;
             cursor: pointer;
         }
-        .attribution-button:hover {
+        .attribution-button:hover,
+        .attribution-button-disable-social:hover {
             opacity: 0.9;
         }
     </style>
@@ -114,7 +119,7 @@
             <figcaption>
                 <h3>Override attribution</h3>
                 <p>
-                    Data attributes:<br>
+                    Image data attributes:<br>
                     <ul>
                         <li>data-license="CC0 1.0"</li>
                         <li>data-year="2019"</li>
@@ -124,6 +129,15 @@
                     </ul>
                 </p>
                 <button class="attribution-button">Attribution</button>
+            </figcaption>
+        </figure>
+
+        <figure class="photo-card-disable-social">
+            <img class="attribution-image-disable-social" src="https://placehold.co/300x200?text=No+social+sharing" data-license="CC BY-NC-SA 4.0">
+            <figcaption>
+                <h3>Disable social sharing</h3>
+                <p>Use the following option in the constructor: <br><code>showSocial: false</code></p>
+                <button class="attribution-button-disable-social">Attribution</button>
             </figcaption>
         </figure>
     </div>
@@ -139,6 +153,18 @@
                 year: new Date().getFullYear(),
                 authorName: 'John Doe',
                 authorUrl: 'https://example.com/johndoe'
+            }
+        );
+
+        new AttributionOverlay(
+            {
+                buttonClass: 'attribution-button-disable-social',
+                imageContainerClass: 'photo-card-disable-social',
+                imageClass: 'attribution-image-disable-social',
+                year: new Date().getFullYear(),
+                authorName: 'John Doe',
+                authorUrl: 'https://example.com/johndoe',
+                showSocial: false
             }
         );
     </script>

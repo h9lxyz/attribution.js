@@ -278,6 +278,7 @@
                 mediaType: 'Photo',
                 authorName: null,
                 authorUrl: null,
+                showSocial: true,
                 ...options
             };
 
@@ -362,6 +363,18 @@
                 email: `mailto:?subject=${encodeURIComponent(shareText)}&body=${encodeURIComponent(`${shareText}\n\n${photoUrl}`)}`
             };
             
+            const socialSection = this.options.showSocial ? `
+                <div class="attribution-overlay__footer">
+                    <h3>Share this photo 📣</h3>
+                    <div class="attribution-overlay__social">
+                        <a href="${shareUrls.twitter}" target="_blank" rel="noopener" class="attribution-overlay__social-button attribution-overlay__social-button--x" title="Share on X">X</a>
+                        <a href="${shareUrls.facebook}" target="_blank" rel="noopener" class="attribution-overlay__social-button attribution-overlay__social-button--fb" title="Share on Facebook">FB</a>
+                        <a href="${shareUrls.pinterest}" target="_blank" rel="noopener" class="attribution-overlay__social-button attribution-overlay__social-button--pin" title="Share on Pinterest">P</a>
+                        <a href="${shareUrls.email}" class="attribution-overlay__social-button attribution-overlay__social-button--email" title="Share by email">@</a>
+                    </div>
+                </div>
+            ` : '';
+
             overlay.innerHTML = `
                 <div class="attribution-overlay__header">
                     Thank you for downloading my photo 👏
@@ -384,15 +397,7 @@
                         <button class="attribution-overlay__button attribution-overlay__button--copy">Copy</button>
                     </div>
                 </div>
-                <div class="attribution-overlay__footer">
-                    <h3>Share this photo 📣</h3>
-                    <div class="attribution-overlay__social">
-                        <a href="${shareUrls.twitter}" target="_blank" rel="noopener" class="attribution-overlay__social-button attribution-overlay__social-button--x" title="Share on X">X</a>
-                        <a href="${shareUrls.facebook}" target="_blank" rel="noopener" class="attribution-overlay__social-button attribution-overlay__social-button--fb" title="Share on Facebook">FB</a>
-                        <a href="${shareUrls.pinterest}" target="_blank" rel="noopener" class="attribution-overlay__social-button attribution-overlay__social-button--pin" title="Share on Pinterest">P</a>
-                        <a href="${shareUrls.email}" class="attribution-overlay__social-button attribution-overlay__social-button--email" title="Share by email">@</a>
-                    </div>
-                </div>
+                ${socialSection}
             `;
 
             const copyButton = overlay.querySelector('.attribution-overlay__button--copy');

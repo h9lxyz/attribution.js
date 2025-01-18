@@ -25,7 +25,8 @@ This is useful if you want to provide attribution data globally to multiple imag
             license: 'CC BY-NC-SA 4.0',
             year: new Date().getFullYear(),
             authorName: 'John Doe',
-            authorUrl: 'https://example.com/johndoe'
+            authorUrl: 'https://example.com/johndoe',
+            showSocial: true
         }
     );
 </script>
@@ -58,7 +59,7 @@ This is useful if you want to provide attribution data to a single image.
 - Shows attribution overlay when trigger element is clicked
 - Right-click integration for image context menu
 - Built-in attribution text for Creative Commons licenses
-- Social sharing buttons for X, Facebook, Pinterest, and email
+- Social sharing buttons for X, Facebook, Pinterest, and email (optional)
 - Customizable styling and behavior
 - Responsive design
 - Fun emoji animation
