@@ -226,8 +226,8 @@
                 obligations: function() {
                     return `This work is dedicated to the public domain. ${this.rights.publicDomain}`;
                 },
-                getAttribution: function(photoUrl, photographerName, photographerUrl, mediaType) {
-                    return `<a href="${photoUrl}">${mediaType}</a> by <a href="${photographerUrl}">${photographerName}</a> is dedicated to the <a href="${this.url}">public domain</a>.`;
+                getAttribution: function(mediaUrl, artistName, artistUrl, mediaType) {
+                    return `<a href="${mediaUrl}">${mediaType}</a> by <a href="${artistUrl}">${artistName}</a> is dedicated to the <a href="${this.url}">public domain</a>.`;
                 }
             },
             'CC BY 4.0': {
@@ -336,7 +336,7 @@
             return `<a href="${mediaUrl}">${mediaType}</a> © ${year} by <a href="${authorUrl}">${authorName}</a> is licensed under <a href="${licenseUrl}">${license}</a>.`;
         }
 
-        createOverlay(photoUrl, photographerName, photographerUrl, options) {
+        createOverlay(mediaUrl, artistName, artistUrl, options) {
             const backdrop = document.createElement('div');
             backdrop.className = 'attribution-overlay-backdrop';
             
@@ -344,28 +344,28 @@
             overlay.className = 'attribution-overlay';
             
             const attribution = options.isCC0 
-                ? CreativeCommons.licenses['CC0 1.0'].getAttribution(photoUrl, photographerName, photographerUrl, options.mediaType)
+                ? CreativeCommons.licenses['CC0 1.0'].getAttribution(mediaUrl, artistName, artistUrl, options.mediaType)
                 : this.getStandardAttribution(
-                    photoUrl, 
-                    photographerName, 
-                    photographerUrl, 
+                    mediaUrl, 
+                    artistName, 
+                    artistUrl, 
                     options.year,
                     options.license,
                     options.licenseUrl,
                     options.mediaType
                 );
             
-            const shareText = `Check out this amazing photo by ${photographerName}`;
+            const shareText = `Check out this amazing ${options.mediaType.toLowerCase()} by ${artistName}`;
             const shareUrls = {
-                twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(photoUrl)}`,
-                facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(photoUrl)}`,
-                pinterest: `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(photoUrl)}&description=${encodeURIComponent(shareText)}`,
-                email: `mailto:?subject=${encodeURIComponent(shareText)}&body=${encodeURIComponent(`${shareText}\n\n${photoUrl}`)}`
+                twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(mediaUrl)}`,
+                facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(mediaUrl)}`,
+                pinterest: `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(mediaUrl)}&description=${encodeURIComponent(shareText)}`,
+                email: `mailto:?subject=${encodeURIComponent(shareText)}&body=${encodeURIComponent(`${shareText}\n\n${mediaUrl}`)}`
             };
             
             const socialSection = this.options.showSocial ? `
                 <div class="attribution-overlay__footer">
-                    <h3>Share this photo 📣</h3>
+                    <h3>Share this ${options.mediaType.toLowerCase()} 📣</h3>
                     <div class="attribution-overlay__social">
                         <a href="${shareUrls.twitter}" target="_blank" rel="noopener" class="attribution-overlay__social-button attribution-overlay__social-button--x" title="Share on X">X</a>
                         <a href="${shareUrls.facebook}" target="_blank" rel="noopener" class="attribution-overlay__social-button attribution-overlay__social-button--fb" title="Share on Facebook">FB</a>
@@ -377,15 +377,15 @@
 
             overlay.innerHTML = `
                 <div class="attribution-overlay__header">
-                    Thank you for downloading my photo 👏
+                    Thank you for downloading my ${options.mediaType.toLowerCase()}👏
                     <button class="attribution-overlay__close">✕</button>
                 </div>
                 <div class="attribution-overlay__content">
                     <div class="attribution-overlay__text">
-                        <p>I'm glad you like my work! This photo is freely available under the 
-                        <b>Creative Commons <a href="${options.licenseUrl}">${options.license}</a></b>.
+                        <p>This ${options.mediaType.toLowerCase()} is freely available under the 
+                        <b>Creative Commons <a href="${options.licenseUrl}">${options.license}</a></b> license.
                         <span title="Simplified explanation: For full license details, please visit the official Creative Commons license deed.">
-                            ${options.isCC0 ? options.licenseObligations : `This license requires that you ${options.licenseObligations}`}
+                            ${options.isCC0 ? options.licenseObligations : `It requires that you ${options.licenseObligations}`}
                         </span>
                         </p>
                         <p>Use this attribution text:</p>
